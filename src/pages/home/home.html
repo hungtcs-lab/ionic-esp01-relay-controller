@@ -1,14 +1,26 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
-      Ionic Blank
+      Devices Controller
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <empty-message *ngIf="!devices.length" message="当前无设备"></empty-message>
+  <ion-list *ngIf="devices.length">
+    <ion-item *ngFor="let device of devices" (press)="showRenameDialog(device);">
+      <ion-label>
+        <h2>
+          {{ device.name || device.ipAddress }}
+          <span *ngIf="device.name">({{ device.ipAddress }})</span>
+        </h2>
+        <p>{{ device.macAddress }}</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="device.status" (ionChange)="changeDeviceStatus(device);"></ion-toggle>
+    </ion-item>
+  </ion-list>
 </ion-content>
