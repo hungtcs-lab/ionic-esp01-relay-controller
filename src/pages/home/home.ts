@@ -68,6 +68,7 @@ export class HomePage implements OnInit {
         throw new Error(`bad status code ${ status }`);
       }
     }).catch(err => {
+      loading.dismiss();
       this.toastController.create({
         message: '控制设备失败',
         duration: 3000,
